@@ -20,6 +20,10 @@
   <%= @election.settings %>
 </p>
 
+<% if @election.audit_trail_events.present? %>
+  <%= render("partials/audit_trail", auditable: @election) %>
+<% end %>
+
 <%= link_to 'Edit', edit_election_path(@election) %> |
 <%= link_to 'Questions', election_questions_path(@election) %> |
 <%= link_to 'Voters', election_voters_path(@election) %> |

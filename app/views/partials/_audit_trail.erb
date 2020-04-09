@@ -1,0 +1,50 @@
+  <p>
+    <strong>Audit Log:</strong>
+    <table>
+      <thead>
+        <tr>
+          <td>
+            Changed by:
+          </td>
+          <td>
+            Time of change:
+          </td>
+          <td>
+            Property Changed:
+          </td>
+          <td>
+            Changed From:
+          </td>
+          <td>
+            Changed To:
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <% auditable.audit_trail_events.each do |event| %>
+          <% event.event_changes.keys.each do |change_key| %>
+            <% change_from, change_to = event.event_changes[change_key] %>
+            <% next if change_key == 'updated_at' %> 
+            <tr>
+              <td>
+                <%= event.user.email %>
+              </td>
+              <td title="<%= event.created_at %>">
+                <%= time_ago_in_words(event.created_at) %> ago
+              </td>
+              <td>
+                <%= change_key.titleize %>
+              </td>
+              <td>
+                <%= change_from.blank? ? '' : change_from %>
+              </td>
+              <td>
+                <%= change_to.blank? ? '' : change_to %>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </p>
+
