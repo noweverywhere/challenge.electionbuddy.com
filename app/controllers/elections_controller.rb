@@ -1,3 +1,5 @@
+require './app/services/create_auditable'
+
 class ElectionsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_election, only: [:show, :edit, :update, :destroy]
@@ -25,7 +27,11 @@ class ElectionsController < ApplicationController
   # POST /elections
   # POST /elections.json
   def create
-    @election = Election.new(election_params.merge(user: current_user))
+    @election = Services::CreateAuditable.new(
+      Election,
+      params.merge(user: current_user),
+      current_user,
+    )
 
     respond_to do |format|
       if @election.save
