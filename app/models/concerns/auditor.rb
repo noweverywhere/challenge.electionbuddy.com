@@ -11,6 +11,14 @@ module Auditor
     attr_accessor :current_user
   end
 
+  def update(*params) 
+    # Not loving the idea of overwriting such an important activerecord method
+    # the same could be done for create, destroy etc.
+    # make sure all other params that are passed are handled correctly as well
+    @current_user = params[:current_user]
+    super(params.except(:current_user))
+  end
+
   def write_audit_trail
     AuditTrailEvent.create(
       auditable_id: self.id,

@@ -42,7 +42,7 @@ class ElectionsController < ApplicationController
   # PATCH/PUT /elections/1.json
   def update
     respond_to do |format|
-      if @election.auditable_update(election_params.merge(current_user: current_user))
+      if @election.update(election_params.merge(current_user: current_user))
         format.html { redirect_to @election, notice: 'Election was successfully updated.' }
         format.json { render :show, status: :ok, location: @election }
       else
