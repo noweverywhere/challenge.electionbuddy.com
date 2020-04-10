@@ -25,7 +25,7 @@ class ElectionsController < ApplicationController
   # POST /elections
   # POST /elections.json
   def create
-    @election = Election.new(election_params.merge(user: current_user))
+    @election = Election.new(election_params.merge(user: current_user, current_user: current_user))
 
     respond_to do |format|
       if @election.save
@@ -42,7 +42,7 @@ class ElectionsController < ApplicationController
   # PATCH/PUT /elections/1.json
   def update
     respond_to do |format|
-      if @election.update(election_params)
+      if @election.update(election_params.merge(current_user: current_user))
         format.html { redirect_to @election, notice: 'Election was successfully updated.' }
         format.json { render :show, status: :ok, location: @election }
       else
